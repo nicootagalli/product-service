@@ -25,4 +25,7 @@ public interface IProductService {
     // PATCH
     public Product patchProduct(Long product_id, Product pro);
 
+    // FIND BY SECTION
+    public List<Product> findBySection(String section);
+
 }

@@ -22,7 +22,7 @@ public class ProductController {
     @PostMapping("/save")
     public ResponseEntity<String> saveProduct(@RequestBody Product product){
         productService.saveProduct(product);
-        return ResponseEntity.created(URI.create("/products/save")).body("Producto creado correctamente");
+        return ResponseEntity.created(URI.create("/products/save")).body("Product created successfully");
     }
 
     // FIND BY ID
@@ -33,29 +33,35 @@ public class ProductController {
 
     // GET ALL
     @GetMapping("/find")
-    public List<Product> getProducts(){
-        return productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(){
+        return ResponseEntity.ok(productService.getProducts());
     }
 
     // DELETE
     @DeleteMapping("/delete/{product_id}")
-    public String deleteProduct(@PathVariable Long product_id){
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long product_id){
         productService.deleteProduct(product_id);
-        return "Product deleted correctly";
+        return ResponseEntity.noContent().build();
     }
 
     // EDIT
     @PutMapping("/edit/{product_id}")
-    public Product editProduct(@PathVariable Long product_id,
-                               @RequestBody Product newProduct){
-        return productService.editProduct(product_id,newProduct);
+    public ResponseEntity<Product> editProduct(@PathVariable Long product_id,
+                                               @RequestBody Product newProduct){
+        return ResponseEntity.ok(productService.editProduct(product_id,newProduct));
     }
 
     //PATCH
     @PatchMapping("/patch/{product_id}")
-    public Product patchProduct(@PathVariable Long product_id,
+    public ResponseEntity<Product> patchProduct(@PathVariable Long product_id,
                                 @RequestBody Product pro){
-        return productService.patchProduct(product_id,pro);
+        return ResponseEntity.ok(productService.patchProduct(product_id,pro));
+    }
+
+    // FIND BY SECTION
+    @GetMapping("/find/section/{section}")
+    public ResponseEntity<List<Product>>findBySection(@PathVariable String section){
+        return ResponseEntity.ok(productService.findBySection(section));
     }
 
 }

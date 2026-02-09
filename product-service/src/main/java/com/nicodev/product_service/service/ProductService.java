@@ -7,6 +7,7 @@ import com.nicodev.product_service.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,11 +24,17 @@ public class ProductService implements IProductService{
         if(product.getName() == null || product.getName().isEmpty() ){
             throw new BadRequestException("Product name required");
         }
+        if(product.getSection() == null || product.getSection().isEmpty() ){
+            throw new BadRequestException("Product section required");
+        }
         if(product.getBrand() == null || product.getBrand().isEmpty() ){
             throw new BadRequestException("Product brand required");
         }
         if(product.getUnit_price() == null || product.getUnit_price() <= 0.0 ){
-            throw new BadRequestException("Product name required");
+            throw new BadRequestException("Product price required");
+        }
+        if(product.getStock() == null || product.getStock() <= 0 ){
+            throw new BadRequestException("Product stock required");
         }
 
         // If everything is ok, save.
@@ -70,8 +77,10 @@ public class ProductService implements IProductService{
 
         // set the new values
         productToEdit.setName(newProduct.getName());
+        productToEdit.setSection(newProduct.getSection());
         productToEdit.setBrand(newProduct.getBrand());
         productToEdit.setUnit_price(newProduct.getUnit_price());
+        productToEdit.setStock(newProduct.getStock());
 
         // save the produc with the new values.
         this.saveProduct(productToEdit);
@@ -91,6 +100,10 @@ public class ProductService implements IProductService{
             product.setName(pro.getName());
         };
 
+        if (pro.getSection() != null){
+            product.setSection(pro.getSection());
+        };
+
         if (pro.getBrand() != null){
              product.setBrand(pro.getBrand());
         };
@@ -98,11 +111,28 @@ public class ProductService implements IProductService{
         if (pro.getUnit_price() != null){
              product.setUnit_price(pro.getUnit_price());
         };
+        if (pro.getStock() != null){
+            product.setStock(pro.getStock());
+        };
 
         // save product with the new values
         this.saveProduct(product);
 
         // Return the Product with the new values.
         return product;
+    }
+
+    // FIND BY SECTION
+    @Override
+    public List<Product> findBySection(String section) {
+        List<Product> productsBySection = productRepository.findAll().stream()
+                .filter(p -> p.getSection().equalsIgnoreCase(section))
+                .toList();
+
+        if (productsBySection.isEmpty()){
+            throw new NotFoundException("The section of preducts: " + section + " is empty");
+        }
+
+        return productsBySection;
     }
 }
