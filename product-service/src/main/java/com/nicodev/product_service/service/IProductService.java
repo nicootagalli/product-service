@@ -1,5 +1,6 @@
 package com.nicodev.product_service.service;
 
+import com.nicodev.product_service.dto.ProductDTO;
 import com.nicodev.product_service.model.Product;
 
 import java.util.List;
@@ -27,5 +28,8 @@ public interface IProductService {
 
     // FIND BY SECTION
     public List<Product> findBySection(String section);
+
+    // GET DTO
+    public ProductDTO findProductDTO(Long product_id);
 
 }

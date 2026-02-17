@@ -1,7 +1,9 @@
 package com.nicodev.product_service.service;
 
+import com.nicodev.product_service.dto.ProductDTO;
 import com.nicodev.product_service.exception.NotFoundException;
 import com.nicodev.product_service.exception.BadRequestException;
+import com.nicodev.product_service.mapper.ProductMapper;
 import com.nicodev.product_service.model.Product;
 import com.nicodev.product_service.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,5 +136,20 @@ public class ProductService implements IProductService{
         }
 
         return productsBySection;
+    }
+
+    // FIND DTO
+    @Override
+    public ProductDTO findProductDTO(Long product_id) {
+
+        // find the product(entity) by id
+        Product pro = productRepository.findById(product_id)
+                .orElseThrow(() -> new NotFoundException("Product with ID: " + product_id + " not found"));
+
+        // Convert de Product to ProductDTO using Mapper Class
+        ProductDTO proDTO = ProductMapper.toDTO(pro);
+
+        // Return ProductDTO
+        return proDTO;
     }
 }

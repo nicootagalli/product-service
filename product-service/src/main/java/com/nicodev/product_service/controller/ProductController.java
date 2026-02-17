@@ -1,5 +1,6 @@
 package com.nicodev.product_service.controller;
 
+import com.nicodev.product_service.dto.ProductDTO;
 import com.nicodev.product_service.model.Product;
 import com.nicodev.product_service.service.IProductService;
 import org.apache.http.protocol.HTTP;
@@ -62,6 +63,12 @@ public class ProductController {
     @GetMapping("/find/section/{section}")
     public ResponseEntity<List<Product>>findBySection(@PathVariable String section){
         return ResponseEntity.ok(productService.findBySection(section));
+    }
+
+    // FIND DTO
+    @GetMapping("/find/dto/{product_id}")
+    public ResponseEntity<ProductDTO> findProductDTO(@PathVariable Long product_id){
+        return ResponseEntity.ok(productService.findProductDTO(product_id));
     }
 
 }
