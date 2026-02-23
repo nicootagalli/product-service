@@ -71,4 +71,10 @@ public class ProductController {
         return ResponseEntity.ok(productService.findProductDTO(product_id));
     }
 
+    // PRODUCT EXIST
+    @GetMapping("/exist/{product_id}")
+    public ResponseEntity<Boolean> productExist(@PathVariable Long product_id){
+        return ResponseEntity.ok(productService.productExist(product_id));
+    }
+
 }

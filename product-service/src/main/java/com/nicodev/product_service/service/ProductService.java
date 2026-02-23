@@ -152,4 +152,10 @@ public class ProductService implements IProductService{
         // Return ProductDTO
         return proDTO;
     }
+
+    // PRODUCT EXIST
+    @Override
+    public Boolean productExist(Long product_id) {
+        return productRepository.existsById(product_id);
+    }
 }

@@ -32,4 +32,7 @@ public interface IProductService {
     // GET DTO
     public ProductDTO findProductDTO(Long product_id);
 
+    // PRODUCT EXIST
+    public Boolean productExist(Long product_id);
+
 }
